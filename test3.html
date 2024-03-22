@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>슬라이드 배너</title>
+        <style>
+            section.container{
+                position: relative;
+                margin: 0 auto;
+                /* 배너 이미지 1장에 대한 width 값만 준다 */
+                width: 2000px;
+                /* 2000px을 넘어가는 경우(overflow)에 보여주지 않는다. */
+                overflow: hidden;
+            }
+
+            div.banner {
+                /* <div>태그는 블록 요소이기 때문에 기본으로 세로배치 된다.
+                    display: flex 속성을 주면 가로로 배치할 수 있다. */
+                display: flex;
+                /* 모든 배너 이미지 width의 총합을 작성한다. */
+                width: 16000px;
+                /* transform: translate(-2000px); */
+            }   
+
+            div.arrow {
+                position: absolute;
+                font-weight: bold;
+                font-size: 2.3rem;
+                color: #0000004d;
+                line-height: 71.5px;
+                width: 80px;
+                height: 80px;
+                border: 4px solid #0000004d;
+                border-radius: 50%;
+                z-index: 1;
+                text-align: center;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+            }
+
+
+            div.left {
+                left: 20px;
+            }
+
+            div.right{
+                right: 20px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <section class="container">
+            <div class="arrow left">&lt;</div>
+            <div class="banner">
+                <div>
+                    <img src="./q_banner/imgs/001.png" />
+                </div>
+                <div>
+                    <img src="./q_banner/imgs/002.png" />
+                </div>
+                <div>
+                    <img src="./q_banner/imgs/003.png" />
+                </div>
+                <div>
+                    <img src="./q_banner/imgs/004.png" />
+                </div>
+                <div>
+                    <img src="./q_banner/imgs/005.png" />
+                </div>
+                <div>
+                    <img src="./q_banner/imgs/006.png" />
+                </div>
+            </div>
+            <div class="arrow right">&gt;</div>
+        </section>
+    </body>
+    <script>
+        // const div = document.querySelector("div.banner");
+        // let count = 0;
+        // setInterval(() => {
+        //     count ++;
+        //     count === 6 && (count = 0);
+        //     div.style.transition = `transform 0.5s`;
+        //     div.style.transform = `translate(${-2000 * count}px)`;
+        // }, 2000);
+
+        // 무한 슬라이드
+        const firstBanner = document.createElement("div");
+        const lastBanner = document.createElement("div");
+        const banner = document.querySelector("div.banner");
+        let count = 0;
+
+        //6번 이미지 뒤에 1번 이미지 삽입하기
+        lastBanner.innerHTML = `<img src="images/001.png">`;
+        banner.appendChild(lastBanner);
+
+        //1번 이미지 앞에 6번 이미지 삽입하기
+        firstBanner.innerHTML = `<img src="images/006.png">`;
+        banner.insertBefore(firstBanner, document.querySelector("div.banner div"));
+        banner.style.transform = `translate(-2000px)`;
+        
+        //자동으로 다음 슬라이드로 넘어가는 기능을
+        //autoSlide 함수에 담아서 사용한다.
+        const autoSlide = () => {
+            count++;
+            banner.style.transition = `transform 0.5s`;
+            //다음 슬라이드로 넘어가도록 좌표를 설정한다.
+            //1번 슬라이드 앞에 6번 슬라이드가 추가되었기 때문에
+            //count + 1을 사용해주어야 한다.
+            banner.style.transform = `translate(${-2000 * (count + 1)}px)`;
+
+            //마지막 슬라이드일 때
+            if (count === 6) {
+                setTimeout(() => {
+                    banner.style.transition = `transform 0s`;
+                    //첫 번째 슬라이드로 넘어가고
+                    banner.style.transform = `translate(-2000px)`;
+                }, 500);
+                //count를 0으로 만들어준다.
+                count = 0;
+            }
+        };
+
+        let id = setInterval(autoSlide, 2000);
+
+        // 이전, 다음 버튼
+        const arrows = document.querySelectorAll("div.arrow");
+
+        let arrowButtonCheck = true;
+
+        arrows.forEach((arrow) => {
+            arrow.addEventListener("click", (e) => {
+                if(arrowButtonCheck){
+                    arrowButtonCheck = false;
+                    //버튼을 클릭했을 때 autoslide 중지
+                    clearInterval(id);
+
+                    let arrowType = arrow.classList[1];
+                    //이전 버튼
+                    if(arrowType === "left"){
+                        count --;
+                        banner.style.transition = `transform 0.5s`;
+                        banner.style.transform = `translate(${-2000 * (count + 1)}px)`;
+                        
+                        //첫 번째 슬라이드일 때
+                        if(count === -1){
+                            setTimeout(() => {
+                                banner.style.transition = `transform 0s`;
+                                banner.style.transform = `translate(-12000px)`;
+                            }, 500);
+                            //마지막 슬라이드로 넘겨준다
+                            count = 5;
+                        }
+
+                    }else{      //다음 버튼
+                        count ++;
+                        banner.style.transition = `transform 0.5s`;
+                        banner.style.transform = `translate(${-2000 * (count + 1)}px)`;
+
+                        if (count === 6) {
+                            setTimeout(() => {
+                                banner.style.transition = `transform 0s`;
+                                banner.style.transform = `translate(-2000px)`;
+                            }, 500);
+                            count = 0;
+                        }
+                    }
+
+                    id = setInterval(autoSlide, 2000);
+
+                    setTimeout(() => {
+                        arrowButtonCheck = true;
+                    }, 500);
+                }//if 끝
+            });
+        });
+    </script>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프립 메인 배너 클론코딩</title>
+    <style>
+        section.container{
+            position: relative;
+            margin: 0 auto;
+            width: 768px ;
+            height: 307px;
+            overflow: hidden;
+        }
+        div.mainBanner {
+            display: flex;
+            width: 9216px;
+        }
+        /* 원본 이미지가 container의 크기보다 크기 때문에
+           container 크게에 이미지를 맞춰준다.
+         */
+        div.mainBanner img {
+            max-width: 100%;
+            height: auto;
+        }
+        div.arrow {
+                position: absolute;
+                font-weight: bold;
+                font-size: 2.3rem;
+                color: #0000004d;
+                line-height: 71.5px;
+                width: 80px;
+                height: 80px;
+                border: 4px solid #0000004d;
+                border-radius: 50%;
+                z-index: 1;
+                text-align: center;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+            }
+            div.left {
+                left: 20px;
+            }
+
+            div.right{
+                right: 20px;
+            }
+            div.buttons {
+                width: 768px;
+                position: absolute;
+                bottom: 10px;
+                text-align: center;
+            }
+            div.buttons button {
+                border-radius: 50%;
+                width: 15px;
+                height: 15px;
+            }
+    </style>
+</head>
+<body>
+    <h3>프립 메인 배너 클론코딩</h3>
+    
+    <section class="container">
+        <div class="arrow left">&lt;</div>
+        <div class="mainBanner">
+            <div>
+                <img src="imgs_frip/frip01.png">
+            </div>
+            <div>
+                <img src="imgs_frip/frip02.png">
+            </div>
+            <div>
+                <img src="imgs_frip/frip03.png">
+            </div>
+            <div>
+                <img src="imgs_frip/frip04.png">
+            </div>
+            <div>
+                <img src="imgs_frip/frip05.png">
+            </div>
+            <div>
+                <img src="imgs_frip/frip06.png">
+            </div>
+            <div>
+                <img src="imgs_frip/frip07.png">
+            </div>
+            <div>
+                <img src="imgs_frip/frip08.png">
+            </div>
+            <div>
+                <img src="imgs_frip/frip09.png">
+            </div>
+            <div>
+                <img src="imgs_frip/frip10.png">
+            </div>
+        </div>
+        <div class="arrow right">&gt;</div>
+        <div class="buttons">
+            <button></button>
+            <button></button>
+            <button></button>
+            <button></button>
+            <button></button>
+            <button></button>
+            <button></button>
+            <button></button>
+            <button></button>
+            <button></button>
+        </div>
+    </section>
+</body>
+<script>
+    
+    const firstBanner = document.createElement("div");
+    const lastBanner = document.createElement("div");
+    const mainBanner = document.querySelector("div.mainBanner");
+    const buttons = document.querySelectorAll("div.buttons button");
+
+    let cnt = 0;
+    let temp = buttons[0];
+    temp.style.backgroundColor = "black";
+
+    //10번 이미지 끝에 1번 이미지 삽입하기
+    lastBanner.innerHTML = `<img src="imgs_frip/frip01.png">`;
+    mainBanner.appendChild(lastBanner);
+
+    //1번 이미지 앞에 10번 이미지 삽입하기
+    firstBanner.innerHTML = `<img src="imgs_frip/frip10.png">`;
+    mainBanner.insertBefore(firstBanner, document.querySelector("div.mainBanner div"));
+    mainBanner.style.transform = `translate(-768px)`;
+
+    //💖무한 슬라이드
+    //자동으로 다음 슬라이드로 넘어가게 하는 autoslide 함수
+    const autoslide = () => {
+        // 몇 번째 이미지인지 알기 위해 cnt 변수를 사용한다.
+        cnt++;
+
+        mainBanner.style.transition = `transform 0.5s`;
+        mainBanner.style.transform = `translate(${-768 * (cnt + 1)}px)`;
+
+        if(cnt == 10) {
+            setTimeout(() => {
+                mainBanner.style.transform = `translate(-768px)`;
+                mainBanner.style.transition = `transform 0s`;
+            }, 500)
+            cnt = 0;
+        }
+
+        //autoslide 에서 버튼 색상 바뀌도록 하기
+        temp.style.backgroundColor = "#fff";        //이전 버튼의 색상을 white로
+        buttons[cnt].style.background = "black";
+        temp = buttons[cnt];
+    }
+
+    let id = setInterval(autoslide, 2000);
+
+
+    //💖이전, 다음 버튼
+    const arrows = document.querySelectorAll("div.arrow");
+    let arrowButtonCheck = true;
+
+    arrows.forEach((arrow) => {
+        arrow.addEventListener("click", (e) => {
+            if(arrowButtonCheck) {
+                //arrowButtonCheck의 상태가 false인 동안은
+                //여러번 버튼을 클릭해도 이벤트가 발생하지 않는다.
+                arrowButtonCheck = false;
+
+                //버튼을 클릭했을 때 autoslide 중지
+                clearInterval(id);
+
+                let arrowType = arrow.classList[1];
+                //이전버튼일 때
+                if(arrowType === "left") {
+                    cnt--;   //count 감소
+                    mainBanner.style.transition = `transform 0.5s`;
+                    mainBanner.style.transform = `translate(${-768 * (cnt + 1)}px)`;
+                    
+                    if(cnt === -1) {
+                        setTimeout(() => {
+                            mainBanner.style.transition = `transform 0s`;
+                            mainBanner.style.transform = `translate(-7680px)`;
+                        }, 500);
+                        cnt = 9;
+                    }
+                } else {    //다음버튼일 때
+                    cnt++;    //count 증가
+                    mainBanner.style.transition = `transform 0.5s`;
+                    mainBanner.style.transform = `translate(${-768 * (cnt + 1)}px)`;
+                    
+                    if(cnt === 10) {      //마지막 슬라이드일 때
+                        setTimeout(() => {
+                            mainBanner.style.transition = `transform 0s`;
+                            mainBanner.style.transform = `translate(-768px)`;
+                        }, 500)
+                        cnt = 0;
+                    }
+                }//end 이전버튼, 다음버튼 처리
+
+                //이전, 다음버튼 눌렀을 때 버튼 색깔 변화
+                temp.style.backgroundColor = "#fff";
+                buttons[cnt].style.background = "black";
+                temp = buttons[cnt];
+
+                //클릭 이벤트 종료 시 다시 autoslide가 작동하도록 한다.
+                id = setInterval(autoslide, 2000);
+
+                setTimeout(() => {
+                    arrowButtonCheck = true;
+                }, 500);
+            }//end if
+        })//end 이벤트 리스너
+    })
+
+
+    //💖버튼 눌렀을 때 슬라이드 이동 및 색상 변경
+    let btnCheck = true;
+    buttons.forEach((button, i) => {
+        button.addEventListener("click", (e)=> {
+            if(btnCheck) {
+                btnCheck = false;
+                clearInterval(id);
+
+                cnt = i;
+                temp.style.backgroundColor = "#fff"
+                buttons[cnt].style.background = "black";
+                mainBanner.style.transition = `transform 0.5s`;
+                mainBanner.style.transform = `translate(${-768 * (cnt + 1)}px)`;
+                temp = buttons[cnt];
+
+                id = setInterval(autoslide, 2000);
+
+                setTimeout(() => {
+                    btnCheck = true;
+                },500);
+            }
+        })
+
+        //버튼 눌렀을 때 슬라이드로 이동 안됨!!!!!!
+
+    })
+
+    
+
+</script>
+</html>

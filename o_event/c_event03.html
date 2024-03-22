@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마우스 이벤트</title>
+</head>
+<body>
+    <h1>마우스 이벤트</h1>
+    <!---->
+    <div id="container1">
+        <p>내용1</p>
+        <p>내용2</p>
+        <p>내용3</p>
+    </div>
+
+    <div id="container2">
+        <p>내용4</p>
+        <p>내용5</p>
+        <p>내용6</p>
+    </div>
+</body>
+
+<script>
+    const c1 = document.getElementById("container1");
+    const c2 = document.getElementById("container2");
+
+    //🧡mouseout / mouseover
+    //이벤트 위임이 발생하여 자식 태그에도 이벤트가 상속된다.
+    //<div>태그 뿐만 아니라 개별<p> 태그에도 동일한 이벤트가 적용된다.
+    c1.addEventListener("mouseout", (e) => {
+        e.target.style.backgroundColor = "pink";
+    })
+
+    //💛mouseleave / mouseenter
+    //이벤트 위임이 발생하지 않는다.
+    //타깃 <div>태그에만 이벤트가 적용된다.
+    c2.addEventListener("mouseleave", (e) => {
+        e.target.style.backgroundColor = "pink";
+    })
+
+</script>
+</html>

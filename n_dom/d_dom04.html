@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css 선택자로 선택</title>
+</head>
+<body>
+    <h1>💖css 선택자로 선택</h1>
+    <p>WISH LIST</p>
+    <ul>
+        <li>배고파ㅠㅠ</li>
+        <li>마라탕</li>
+        <li>훠궈</li>
+        <li>마라샹궈</li>
+        <li>카이막</li>
+    </ul>
+</body>
+
+<script>
+    //querySelectorAll -> ul 태그의 li를 모두 가져와준다.
+    const wishList = document.querySelectorAll("ul li");
+    console.log(wishList);
+    
+    //내용에 '마'가 포함되어 있다면 글자 색상을 pink로 변경
+    wishList.forEach((wish) => {
+        if(wish.innerText.includes("마"))
+            wish.style.color = "pink";
+    })
+    
+    
+</script>
+</html>

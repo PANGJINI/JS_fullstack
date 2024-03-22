@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이벤트 위임 실습</title>
+    <style>
+        #container {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                width: 600px;
+                height: 600px;
+                background-color: gainsboro;
+                margin: 0 auto;
+            }
+            div.box1, div.box2 {
+                width: 200px;
+                height: 200px;
+                background-color: lightgray;
+                text-align: center;
+                line-height: 200px;
+            }
+            div.box1.on {
+                background-color: pink;
+            }
+
+    </style>
+</head>
+<body>
+    <h3>이벤트 위임 실습</h3>
+    <div id="container">
+
+    </div>
+    
+</body>
+
+<script>
+    const container = document.getElementById("container");
+    container.innerHTML = `
+        <div class="box1">박스1</div>
+        <div class="box2">박스2</div>
+    `;
+
+    //💖박스1을 눌렀을 때만 박스1 배경색 변경 (토글)
+    //다른 영역을 눌렀을 때는 반응하지 않아야 함
+
+    //style 태그에 css 속성을 추가할 생각을 못해서 구글링으로 해결했다😅
+    //js 코드에서 e.target.style.backgroundColor = "pink";
+    //이 코드를 toggle로 바꾸려고 하니까 당연히 되지 않았음..
+    //toggle은 e.target.classList의 value 값을 변경해준다. 다른 부분은 제어x
+
+    container.addEventListener("click", (e) => {
+        if(e.target.classList.contains("box1")) {
+            e.target.classList.toggle("on");
+        }
+        
+    })
+</script>
+</html>

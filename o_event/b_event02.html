@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>키 이벤트</title>
+</head>
+<body>
+    <h1>키 이벤트</h1>
+    <input type="text" placeholder="이름" autocomplete="off">
+    <p id="name"></p>
+</body>
+
+<script>
+    //key event
+    //keyup : 키보드를 눌렀다 뗐을 때 발생
+    //keydown : 키보드 누르자마자 발생
+    //keypress : 키보드를 누르자마자 발생하고, 누르고 있어도 계속 발생한다.
+    //입력한 키가 화면에 보이기 전에 keydown이 발생하고, 화면에 보이면 keyup이 발생한다.
+
+    const input = document.querySelector("input[type=text]");
+    const content = document.getElementById("name");
+
+    input.addEventListener("keyup", (e) => {
+        // 키 이벤트는 입력된 key의 고유한 번호(key code)를 알 수 있다.
+        if(e.keyCode === 13) {
+            alert("엔터❌❌❌❌❌")
+        }
+
+        // 키보드가 눌릴 때마다 <p>태그에 입력 내용이 바로 출력된다.
+        //content.innerText = input.value;
+        content.innerText = e.target.value;     //이벤트가 발생한 타겟의 value를 가져온다.
+        content.style.color = "red";
+    });
+</script>
+</html>

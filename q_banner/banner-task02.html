@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프립 베스트 랭킹 클론코딩</title>
+    <style>
+        section.container{
+            margin: 0 auto;
+            width: 768px ;
+            height: 307px;
+            overflow: hidden;
+            display: flex;
+        }
+        div.banner {
+            display:flex;
+            width: 2304px;
+        }
+        div.banner img {
+            max-width: 180px;
+            height: auto;
+            margin-right: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h3>🥇프립 베스트 랭킹 배너 클론코딩</h3>
+    
+    <section class="container">
+            <div class="banner">
+                <div>
+                    <img src="imgs_frip/frip_rank01.png">
+                </div>
+                <div>
+                    <img src="imgs_frip/frip_rank02.png">
+                </div>
+                <div>
+                    <img src="imgs_frip/frip_rank03.png">
+                </div>
+                <div>
+                    <img src="imgs_frip/frip_rank04.png">
+                </div>
+                <div>
+                    <img src="imgs_frip/frip_rank05.png">
+                </div>
+                <div>
+                    <img src="imgs_frip/frip_rank06.png">
+                </div>
+                <div>
+                    <img src="imgs_frip/frip_rank07.png">
+                </div>
+                <div>
+                    <img src="imgs_frip/frip_rank08.png">
+                </div>
+                
+            </div>
+        
+    </section>
+    <button id="nextBtn">>></button>
+</body>
+<script>
+    const banner = document.querySelector("div.banner");
+    //const btn = document.getElementById("nextBtn");
+    let cnt = 0;
+
+        setInterval(() => {
+            cnt++;
+            banner.style.transform = `translate(${-196*cnt}px)`;
+        })
+
+
+
+</script>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>애니메이션 실습</title>
+    <style>
+        div.image1 {
+            position:absolute;
+            background-size: 100% 100%;
+            background-image: url("./a.png");
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 150px;
+            height: 150px;
+            
+            transition: 0.5s;
+        }
+
+        /* div.image1:hover {
+            position:absolute;
+            left:100%; top:0; bottom:0; right:-100%;
+            width:200px;
+            height:200px;
+            background-image: url("./b.png");
+            color:#fff;
+            text-align:center;
+            transform-origin:50% 50%;
+            transform:tr;
+            transition:0.5s;
+        } */
+    </style>
+</head>
+<body>
+    <h3>애니메이션 실습</h3>
+
+        <div class="image1"></div>
+        <div class="image2"></div>
+
+
+
+</body>
+
+
+<script>
+
+    const image = document.querySelector("div.image");
+
+    image.addEventListener("click", (e) => {
+       //이미지를 클릭하면 a.png 왼쪽으로 밀면서 b.png 오른쪽에서 나오게
+            image.animate({
+                backgroundImage: "url('./b.png')",
+                //left: "0",
+                //right: "100%"
+
+            }, {
+                duration: 1000,
+                fill:'forwards'
+            })
+            
+    })
+    
+  
+
+</script>
+</html>

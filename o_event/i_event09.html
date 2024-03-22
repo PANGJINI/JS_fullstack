@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>애니메이션</title>
+    <style>
+        #menu {
+            width: 100px;
+            height: 0;
+            opacity: 0;
+            background-color: lightcyan;
+
+            /*
+                transition 
+            */
+            transition: all 0.5s;
+        }
+
+        #check:checked ~ #menu{
+            /*
+                a:hover 처럼 check:checked도 체크박스에 걸 수 있는 이벤트이다.
+
+                + : 내 선택자 바로 다음 요소
+                ~ : 내 선택자 이후로 모든 #menu 요소에 적용, 아이디 속성이기 때문에 어차피 menu 하나에만 적용된다.
+            */
+            height: 100px;
+            opacity: 100%;
+        }
+    </style>
+</head>
+<body>
+    <input type="checkbox" name="checkbox" id="check" style="display:none;">
+    <label for="check">
+        <div>대주제</div>
+    </label>
+    <div id="menu">소주제</div>
+</body>
+
+
+<script>
+
+</script>
+</html>

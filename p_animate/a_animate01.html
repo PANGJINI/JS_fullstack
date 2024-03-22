@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>애니메이션</title>
+    <style>
+        #menu {
+            width: 100px;
+            height: 0;
+            opacity: 0;
+            background-color: lightcyan;
+
+            /*
+                transition 
+            */
+            transition: all 0.5s;
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- 💖대주제 글씨를 클릭했을 때 소주제 글씨가 아래방향으로 펼쳐지도록 한다.
+         열림과 닫힘 상태를 구분하기 위해 checkbox를 사용해준다. 
+         대주제 <div> 태그에 label을 달아서 체크박스와 연결해준다.
+    -->
+
+    <input type="checkbox" name="checkbox" id="check" style="display:none;">
+    <label for="check">
+        <div>대주제</div>
+    </label>
+    <div id="menu">소주제</div>
+</body>
+
+
+<script>
+    // ❤CSS 선택자 공부할 것
+    // #으로 접근하는 것이 id
+
+    // 체크박스와 메뉴 객체를 가져온다.
+    const checkbox = document.querySelector("#check");
+    const menu = document.getElementById("menu");
+
+    //대주제를 클릭했을 때 발생하는 이벤트
+    checkbox.addEventListener("change", (e) => {
+        // 이벤트가 발생한 checkbox의 checked 속성이 참이라면
+        if(e.target.checked) {
+            //💖animate 메서드는 객체를 두 개 전달한다.
+            //첫 번째 : style{key:'valjue'}
+            //두 번째 : option{}
+            menu.animate({
+                height : '100px', 
+                opacity : '100%'
+            }, {
+                duration : 500,  //밀리초 : 500(0.5초)
+                fill: 'forwards'
+            });
+        } else {
+            menu.animate({
+                height : '0', 
+                opacity : '0'
+            }, {
+                duration : 500,  //밀리초 : 500(0.5초)
+                fill: 'forwards'
+            });
+        }
+    })
+
+</script>
+</html>

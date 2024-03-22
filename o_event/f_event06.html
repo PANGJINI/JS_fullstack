@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>select 태그</title>
+</head>
+<body>
+    <select name="category">
+        <option value="전체" selected>전체</option>
+        <option value="인기">인기</option>
+        <option value="최신">최신</option>
+        <option value="베스트">베스트</option>
+        <option value="직접입력">직접입력</option>
+    </select>
+    <input type="text" />
+</body>
+<script>
+
+    //💖내 코드 : forEach를 제거하면 category에 이벤트 리스너가 적용이 안되는 문제가 있음
+    //if문의 알고리즘은 강의 코드와 동일함
+
+    //✨ getElementByName으로 객체를 가져오면 NodeList
+    //NodeList 객체에는 바로 addEventListener를 사용할 수 없다.
+    //😫😪갑자기 사용됨.. 아까는 안됐잖아요
+    // const categories = document.getElementsByName("category");
+    // categories.addEventListener("change", () => {})
+
+    //✨ querySelector로 객체를 가져오면 select 태그 자체를 가져와준다.
+    //이제 forEach를 제거해도 category에 바로 addEventListener를 지정할 수 있다.
+    const category = document.querySelector("select[name=category]");
+    const input = document.querySelector("input[type=text]");
+
+   //categories.forEach((category) => {
+        category.addEventListener("change", (e) => {
+            
+            // 선택된 옵션이 input 태그에 나온다.
+            // 직접입력이 아니라면, input 태그에 내용을 작성할 수 없다.
+            if(e.target.value !== "직접입력") {
+                input.value = e.target.value;
+                input.readOnly = true;
+            } else {    //직접입력일 때, input 태그에 내용을 작성할 수 있다.
+                input.value = "";
+                input.placeholder = e.target.value;
+                input.readOnly = false;
+                
+            }
+        })
+    //})
+
+
+    //💖강의 코드
+    // 선택된  옵션이 input태그에 나온다.
+    // 직접입력이 아니라면, input태그에 내용을 작성할 수 없다.
+    // 직접입력일 때, input태그에 내용을 작성할 수 있다.
+    // select 태그 객체의 value 프로퍼티는 선택된 option 태그의 value값이다.
+    // const category = document.querySelector("select[name='category']");
+    // const input = document.querySelector("input[type=text]");
+
+    // // 처음부터 선택된 값으로 세팅하기!
+    // input.value = category.value;
+    // input.readOnly = true;
+
+    // category.addEventListener("change", (e) => {
+    //     if(e.target.value === "직접입력"){
+    //         input.value = "";
+    //         input.placeholder = e.target.value;
+    //         input.readOnly = false;
+    //     }else{
+    //         input.value = e.target.value;
+    //         input.readOnly = true;
+    //     }
+    // });
+
+
+    
+
+
+</script>
+</html>

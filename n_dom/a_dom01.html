@@ -1,0 +1,70 @@
+<!--
+    DOM(Document Object Model)
+    문서를 객체로 봐라
+
+    -HTML 태그들을 하나씩 객체화 한 것
+    -HTML 페이지의 내용과 모양을 제어하기 위해서 사용되는 객체이다.
+    -HTML 태그 당 DOM 객체가 하나씩 생성된다.
+    -HTML 태그의 포함 관계에 따라서 부모, 자식, 형제자매 관계로 구성된다.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>클래스 이름 선택</title>
+</head>
+
+<body>
+    <h1>클래스 이름 선택</h1>
+    <!-- ul>li.item*5 입력 후 탭 누르면 자동으로 태그 완성-->
+    <ul>
+        <li class="odd item">첫번째 아이템</li>
+        <li class="even item">두번째 아이템</li>
+        <li class="odd item">세번째 아이템</li>
+        <li class="even item">네번째 아이템</li>
+        <li class="odd item">다섯번째 아이템</li>
+    </ul>
+
+</body>
+
+<script>
+    //HTMLCollection에는 forEach가 없기 때문에
+    //프토토타입을 통해 array 객체의 forEach를 가져와서 새롭게 forEach를 만들어준다.
+    HTMLCollection.prototype.forEach = Array.prototype.forEach;
+
+    //클래스명은 중복이 가능하기 때문에 list로 받아올 수 있다.
+    // const odd_list = document.getElementsByClassName("odd");
+    // odd_list.forEach((odd) => { 
+    //     //console.log(odd);
+    //     odd.style.color = 'green';  //글자색을 green으로 바꿈
+    // })
+
+    // 짝수(even) 다 가져와서 글자색 red로 변경!
+    // const even_list = document.getElementsByClassName("even");
+    // even_list.forEach((even) => { 
+    //     //console.log(odd);
+    //     even.style.color = 'red';
+    // })
+
+    //한줄로
+    const items = document.getElementsByClassName("item");
+
+    items.forEach((item) => {
+        //className은 class 이름을 문자열로 return한다.
+        //console.log(item.className);
+        //결과 : odd item   even item   odd item   even item   odd item
+
+        //item.className이 "odd"라는 문자열을 포함include하고 있다면 글자색 green, 아니라면 orange
+        //item.style.color = item.className.includes("odd") ? "green" : "orange";
+
+
+        //classList는 class의 속성값을 공백으로 구분한 리스트를 가져온다.
+        //console.log(item.classList[0]);
+        //결과 : 0번 인덱스에 odd, 1번 인덱스에 item이 담긴다.
+        item.style.color = item.classList[0]==="odd" ? "blue" : "orange";
+    })
+
+</script>
+</html>

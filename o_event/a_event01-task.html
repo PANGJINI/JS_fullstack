@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>클릭 이벤트 실습</title>
+</head>
+<body>
+    <h1>클릭이벤트 실습</h1>
+
+    <form action=""> 
+        <div>
+            <input type="text" placeholder="아이디">
+        </div>
+        <p id="targetId"></p>
+
+        <div>
+            <input type="password" placeholder="비밀번호">
+        </div>
+        <p id="userPw"></p>
+
+        <button type="button">검사</button>
+    </form>
+</body>
+
+<script>
+    //버튼을 눌렀을 때 -> 클릭이벤트 발생
+    //아이디 입력값, 비밀번호 입력값, 버튼 객체 가져온다.
+    const btn = document.querySelector("button");
+    const userId = document.querySelector("input[type=text]");
+    const userPw = document.querySelector("input[type=password]");
+    const targetId = userId.parentElement.nextElementSibling;
+
+
+    btn.addEventListener("click", () => {
+        if (userId.value.trim() === "") {
+            //1. 아이디가 입력되지 않았을 때 빨간색, 입력되면 녹색 메시지 작성
+            with(targetId) {
+                textContent = "아이디를 입력하세요.";
+                style.color = "red";
+            }
+            return;
+        }
+        with(targetId) {
+                textContent = "굳";
+                style.color = "green";
+            }
+
+        
+    })
+
+
+
+        //⭐강의 코드
+        //     // 검사 버튼 클릭 시,       
+        //     const check = document.getElementById("check");
+        // check.addEventListener("click", (e) => {
+        //     const id = document.login.id;
+        //     const idHelp = id.parentElement.nextElementSibling;
+        //     const password = document.login.password;
+        //     const passwordHelp = document.getElementById("help");
+
+        //     // 1. 아이디 검사
+        //     if(!id.value){ 
+        //         // 1-1. 아이디가 입력되지 않았을 때 아래의 p태그에 적절한 메세지 작성(빨간색)
+        //         with(idHelp){
+        //             innerText = '아이디를 입력해주세요.';
+        //             style.color = "red";
+        //         }
+        //     }else{
+        //         // 1-2. 아이디가 입력되었을 때 아래의 p태그에 적절한 메세지 작성(녹색)
+        //         with(idHelp){
+        //             innerText = '멋진 아이디에요!';
+        //             style.color = "green";
+        //         }
+        //     }
+            
+
+        //     // 2. 비밀번호 검사
+        //     if(!password.value){
+        //         // 2-1. 비밀번호가 입력되지 않았을 때 아래의 p태그에 적절한 메세지 작성(빨간색)
+        //         with(passwordHelp){
+        //             innerText = '비밀번호를 입력해주세요.';
+        //             style.color = "red";
+        //         }
+        //     }else{
+        //         // 2-2. 비밀번호가 입력되었을 때 아래의 p태그에 적절한 메세지 작성(녹색)
+        //         with(passwordHelp){
+        //             innerText = '사용 가능한 비밀번호 입니다(강력)';
+        //             style.color = "green";
+        //         }
+        //     }
+            
+            
+
+
+        // });
+
+
+</script>
+</html>

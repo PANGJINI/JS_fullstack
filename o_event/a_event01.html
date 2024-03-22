@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>클릭 이벤트</title>
+</head>
+<body>
+    <h1>클릭이벤트로 css 스타일 동적 변경하기</h1>
+    <hr>
+    <p>변경될 요소</p>
+    <input type="button" value="스타일 변경" onclick="">
+</body>
+
+<script>
+    const input = document.querySelector("input[type=button]"); //input태그의 [key=value]
+    const target = document.querySelector("p");
+
+    //addEventListener("문자열", 콜백함수() => {})
+    //input.onclick = () => {console.log("하이")};
+    input.addEventListener("click", (e)=> {
+        console.log(e.target);      //이벤트가 발생한 타겟 객체를 알려준다
+
+        // e.target : 태그에 이벤트를 거는 경우 자식 태그에도 이벤트가 상속된다.
+        // e.target을 통해서 이벤트를 발생시킬 정확한 태그를 타겟팅 할 수 있다.
+
+        with(target.style) {
+            fontSize = "30px";
+            border = "3px dashed magenta"
+            width = "100px";
+            textAlign = "center";
+        }
+        // target.style.fontSize = "30px";
+        // target.style.border = "3px dashed magenta"
+        // target.style.width = "100px";
+        // target.style.textAlign = "center";
+    });
+
+</script>
+</html>

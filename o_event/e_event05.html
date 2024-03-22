@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>약관 동의</title>
+  </head>
+  <body>
+    <form action="" name="my-form">
+      <div>
+        <label>
+          전체 동의
+          <input type="checkbox" name="all" class="all" />
+        </label>
+      </div>
+      <div>
+        <label>
+          서비스 이용약관 동의
+          <input type="checkbox" name="term1" class="term" />
+        </label>
+      </div>
+      <div>
+        <label>
+          광고 수신 동의
+          <input type="checkbox" name="term2" class="term" />
+        </label>
+      </div>
+      <div>
+        <label>
+          개인 정보 이용약관 동의
+          <input type="checkbox" name="term3" class="term" />
+        </label>
+      </div>
+    </form>
+  </body>
+  <script>
+    //💖내 코드 : 전체 동의 체크박스 해제만 해결했음
+    // HTMLCollection.prototype.forEach = Array.prototype.forEach;
+
+    // const checkboxes = document.querySelectorAll("input[type=checkbox]");
+    // const checkedAll = document.getElementsByClassName("all");
+    // const checkTerms = document.getElementsByClassName("term");
+
+    // checkboxes.forEach((checkbox) => {
+    //   checkbox.addEventListener("change", (e) => {
+    //     //전체동의가 눌리면 하위 항목이 모두 체크되고, 해제시 하위항목 체크도 모두 풀림
+    //     if (checkedAll[0].checked) {
+    //       checkTerms.forEach((term) => {
+    //         term.checked = true;
+    //       });
+    //     } else {
+    //       checkTerms.forEach((term) => {
+    //         term.checked = false;
+    //       });
+    //     }
+    //   });
+    // });
+
+
+    //💖강의 코드
+    NodeList.prototype.filter = Array.prototype.filter;
+
+    const all = document.querySelector("input.all");
+    const terms = document.querySelectorAll("input.term");
+
+    //전체동의를 눌렀을 때, 모든 사항이 체크상태로 변한다.
+    //전체동의를 해제할 때, 모든 사항이 해제상태로 변한다.
+    //모든 체크박스의 checked = 전체 동의 체크박스의 checked값
+    all.addEventListener("click", (e) => {
+        terms.forEach((term) => {
+            term.checked = e.target.checked;
+        })
+    })
+
+    //모든 사항을 체크했을 때, 전체 동의가 체크상태로 변한다.
+    //모든 사항 중 하나라도 해제상태일 때, 전체 동의가 해제상태로 변한다.
+    //전체 체크박스 중 checked가 true인 것만 추출한다.
+    //전체 동의 체크박스의 checked = 추출한 array객체.length === 3
+    terms.forEach((term) => {
+        term.addEventListener("change", (e) => {
+            all.checked = terms.filter((term) => term.checked).length===3
+        })
+    })
+  </script>
+</html>

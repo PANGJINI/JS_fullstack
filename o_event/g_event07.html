@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>첨부파일 썸네일</title>
+    <!-- 썸네일의 목적 -->
+    <!-- 
+        원본 이미지의 크기가 크기 때문에,
+        작은 이미지로 화면에 출력하여, 서버의 부담을 덜어주기 위함. 
+    -->
+    <style>
+        div.wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+        }
+
+        div.image {
+            background-image: url("./a.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+            border: 1px solid gray;
+
+        }
+
+        div.cancle {
+            display: none;
+            cursor: pointer;
+            position: absolute;
+            background-image: url("./cancle.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0 auto;
+            width: 30px;
+            height: 30px;
+            right: 15px;
+            top: 0;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <!--lable을 누르면 input 태그로 연결-->
+        <label for="attach">
+            <div class="image"></div>
+        </label>
+        <div class="cancle"></div>
+    </div>
+    <!--
+        type=file에는 multiple속성을 지정할 수 있다.
+        해당 속성을 지정하면 파일을 여러개 업로드 할 수 있다.
+
+        💖html 파일의 <src>에 이미지의 절대경로를 지정하면
+        크롬의 보안 정책 상 이미지를 출력해주지 않는다.
+        Base64의 형식으로 인코딩을 해서 전달하면 출력할 수 있다.
+    -->
+    <input type="file" id="attach" style="display: none;">   
+</body>
+
+<script>
+    const input = document.getElementById("attach");
+    const thumnail = document.querySelector("div.image");
+    const cancle = document.querySelector("div.cancle");
+
+    //업로드한 파일 정보가 input 태그의 value에 들어간다.
+    //파일이 업로드 될 때 value가 변화된다.
+    //따라서 클릭이벤트를 주게 되면, 업로드 되기 전에 실행되기 때문에 change가 적합하다.
+    input.addEventListener("change", (e) => {
+        //console.log(e.target.files);
+        
+        //비구조화 할당
+        //업로드된 파일을 가져온다
+        //e.target.files는 FileList 자료형이다.
+        const [file] = e.target.files;
+
+        const reader = new FileReader();    //업로드된 파일을 읽을 수 있는 FileReader 객체
+        reader.readAsDataURL(file);    //파일의 내용이 아니라 절대경로를 읽겠다는 의미
+        
+        //경로를 읽어오는 방식이 stream 방식이다.
+        //reader객체가 파일을 다 읽어왔다면 load 이벤트를 발생시킨다.
+        //이 이벤트가 발생했ㅇ르 때 reader 객체는 인코딩된 절대경로를 가진다.
+        reader.addEventListener("load", (e) => { 
+            //x 버튼이 보이도록 함
+            cancle.style.display = "block";
+
+            //base64로 인코딩된 경로를 src()에 담아주면 해당 경로의 이미지를 출력한다.
+            if(e.target.result.includes("image")) {
+                thumnail.style.backgroundImage = `url("${e.target.result}")`;
+                //x 버튼이 보여야 하는 곳
+
+            } else {
+                thumnail.style.backgroundImage = `url("./")`;
+            }
+            
+        })
+    })
+
+
+    //cancle 버튼이 눌리면
+    cancle.addEventListener("click", (e) => {
+
+        //1. 맨 처음 이미지로 변경
+        thumnail.style.backgroundImage = "url('./a.png')";
+
+        //2. input 태그의 value 초기화해주기
+        input.value="";
+
+        //3. X 버튼 숨기기
+        cancle.style.display = "none";
+    })
+</script>
+</html>

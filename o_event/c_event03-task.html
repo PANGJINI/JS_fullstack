@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #container {
+            padding:50px;
+            background-color: brown;
+        }
+        #container p {
+            background-color: burlywood;
+            text-align: center;
+        }
+
+    </style>
+
+
+    <title>마우스 이벤트 실습</title>
+</head>
+<body>
+    <h1>마우스 이벤트 실습</h1>
+
+    <div id="container">
+        <p id="p">잘가!</p>
+    </div>
+</body>
+
+<script>
+    //div 태그에 마우스를 올리면 p태그의 내용이 "안녕"으로 바뀌고
+    //마우스를 떼면 "잘가!"로 바뀌게 한다.
+    const div = document.getElementById("container");
+    const p = document.querySelector("#container p");
+
+    div.addEventListener("mouseenter", (e) => {
+        //p.innerText = "안녕";
+        //e.target으로 접근하기
+        e.target.firstElementChild.innerText = "안녕";
+    })
+    div.addEventListener("mouseleave", (e) => {
+        p.innerText = "잘가";
+    })
+</script>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이벤트 위임</title>
+    <style>
+        /* 
+            클래스 이름을 나열해서 쓰면 &&연산이다.
+            순서는 중요하지 않다.
+        */
+        div.child1.on {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="container" style="height: 400px;"></div>
+
+
+
+</body>
+
+
+<script>
+    //container 에만 이벤트를 지정해도
+    //하위에 추가되는 자식 <div> 태그에도 이벤트가 위임된다.
+    //원하는 자식태그에 정확히 이벤트를 주기 위해서는 e.target을 사용해야 한다
+    const container = document.getElementById("container");
+    container.innerHTML = `<div class='child1'> 이벤트위임1 </div>`;
+    container.innerHTML += `<div class='child2'> 이벤트위임2 </div>`;
+    
+    //const child = document.querySelector("div.child");
+
+    container.addEventListener("click", (e) => {
+        //여러 개의 클래스 이름 중, 원하는 이름을 검사할 때는
+        //classList에 있는 contarins()를 활용한다.
+        if(e.target.classList.contains('child1'))  {
+            //클래스명에 on을 추가하고 싶을 때, 지우고 싶을 때 remove 메서드
+            //e.target.classList.add("on");
+
+            //알아서 on 붙였다 떼준다
+            e.target.classList.toggle("on");
+        }
+    });
+</script>
+</html>
