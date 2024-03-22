@@ -23,8 +23,25 @@ const userLayout = (() => {
             `
         })
         // 누적된 회원의 정보를 <tbody>에 출력한다.
-        tbody.innerHTML = text;
+        // tbody.innerHTML = text;
+
+        // 새로 추가된 회원의 정보를 위해 text를 리턴해준다.
+        return text;
+    };
+
+    // 새로 들어온 유저 정보 하나를 tbody에 출력해주는 역할
+    const showUser = (createdUser) => {
+        return `
+                <tr>
+                    <td>${createdUser.id}</td>
+                    <td>${createdUser.name}</td>
+                    <td>${createdUser.street}</td>
+                    <td>${createdUser.suite}</td>
+                    <td>${createdUser.city}</td>
+                    <td>${createdUser.zipcode}</td>
+                </tr>
+            `
     }
 
-    return {showList: showList};
+    return {showList: showList, showUser: showUser };
 })();
