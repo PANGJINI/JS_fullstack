@@ -5,7 +5,7 @@ const postLayout = (() => {
 
     // 전체 게시글을 화면에 출력하기
     // service에서 전달한 users를 받아야 한다.
-    const showPost = (posts) => {
+    const showList = (posts) => {
         // 추가될 데이터
         let text = ``;
 
@@ -18,13 +18,15 @@ const postLayout = (() => {
                     <td>${post.title}</td>
                     <td>${post.body}</td>
                 </tr>
-            `
+            `;
         })
         // 누적된 회원의 정보를 <tbody>에 출력한다.
         tbody.innerHTML = text;
-    }
+
+        // 새로 추가된 게시글의 정보를 위해 text를 리턴한다.
+        //return text;
+    };
 
 
-
-    return {showPost: showPost};
+    return {showList: showList};
 })();

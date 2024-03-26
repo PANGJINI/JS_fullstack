@@ -14,7 +14,7 @@ const userLayout = (() => {
             text += `
                 <tr>
                     <td>${user.id}</td>
-                    <td>${user.name}</td>
+                    <td><a class="go-detail" href="${user.id}">${user.name}</a></td>
                     <td>${user.address.street}</td>
                     <td>${user.address.suite}</td>
                     <td>${user.address.city}</td>
@@ -30,7 +30,7 @@ const userLayout = (() => {
     };
 
     // 새로 들어온 유저 정보 하나를 tbody에 출력해주는 역할
-    const showUser = (createdUser) => {
+    const showCreatedUser = (createdUser) => {
         return `
                 <tr>
                     <td>${createdUser.id}</td>
@@ -43,5 +43,18 @@ const userLayout = (() => {
             `
     }
 
-    return {showList: showList, showUser: showUser };
+    const showUser = (user) => {
+        return `
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.address.street}</td>
+                    <td>${user.address.suite}</td>
+                    <td>${user.address.city}</td>
+                    <td>${user.address.zipcode}</td>
+                </tr>
+            `
+    }
+
+    return {showList: showList, showCreatedUser: showCreatedUser, showUser:showUser };
 })();

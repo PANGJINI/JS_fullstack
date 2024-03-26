@@ -25,7 +25,19 @@
     <input type="button" id="searchIdButton" value="원하는 아이디로 게시글 찾기">
     
     <hr>
-    <button>전체 게시글</button>
+    <button id="list-button">전체 게시글 보기</button>
+    
+    <hr>
+    <div>
+        <input type="hidden" id="userId" value="9999">
+        <input type="text" id="title" placeholder="title">
+        <input type="text" id="content" placeholder="content">
+    </div>
+    <!-- <div>
+        <form act
+    </div> -->
+    <button id="write-button">게시글 추가하기</button>
+
 
     <table class="postTable">
         <thead>
@@ -45,14 +57,73 @@
 <script src="service02.js"></script>
 <script src="layout02.js"></script>
 <script>
-    // 전체 게시글 버튼
-    const btn = document.querySelector("button");
+    // 전체 게시글 보기 버튼
+    const listBtn = document.querySelector("button");
+    // 게시글 추가하기 버튼
+    const writeBtn = document.getElementById("write-button");
+    // 데이터가 출력될 부분 (tbody)
+    const tbody = document.querySelector("table.postTable tbody");
+
+    
+
+    const writeBtnClickEvent = async(e) => {
+        // 사용자 입력값 가져오기
+        const userId = document.getElementById("userId").value;
+        const title = document.getElementById("title").value;
+        const content = document.getElementById("content").value;
+
+        // 객체화 하기
+        const post = {
+            userId: userId,
+            title: title,
+            content: content,
+        }
+
+        await postService.create(post);
+
+        await postService.findAll(postLayout.showList);
+
+        // console.log(createPost);
+
+        // const newPost = await postService.create(createdPost, postLayout.showNewPost);
+        // const text = await postService.findAll(postLayout.showPost);
+
+        // // 전체 게시글 출력하기
+        // tbody.innerHTML = text;
+        // // 맨 뒤에 새로운 게시글 출력하기
+        // tbody.innerHTML += newPost;
+
+
+
+    }
+
+
+    // 리팩토링
+    // 전체 게시글 보기 이벤트 리스너
+    listBtn.addEventListener("click", async (e)=> {
+        const text = await postService.findAll(postLayout.showList);
+        tbody.innerHTML = text;
+        //console.log("efae");
+        
+    })
+    writeBtn.addEventListener("click", writeBtnClickEvent);
+
+
+
+
+
+
+
+
+
+
 
     // 회원이 입력한 id값
     const inputId = document.querySelector("input[type=text]");
+    // id값으로 게시물 검색하기 버튼
     const searchIdButton = document.getElementById("searchIdButton");
 
-    // id값으로 게시물 검색하기
+    // id값으로 게시물 검색하기 이벤트
     searchIdButton.addEventListener("click", async (e) => {
 
         const tbody = document.querySelector("table.postTable tbody");
@@ -78,9 +149,7 @@
     })
 
 
-    btn.addEventListener("click", (e)=> {
-        postService.findAll(postLayout.showPost);
-    })
+    
 
 </script>
 </html>

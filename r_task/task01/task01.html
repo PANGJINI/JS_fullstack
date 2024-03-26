@@ -21,6 +21,9 @@
         td, th {
             border: 1px solid gray;
         }
+        #go-list {
+            display:none;
+        }
 
     </style>
 </head>
@@ -35,6 +38,7 @@
         <input type="text" id="zipcode" placeholder="우편주소"/>
     </div>
     <button id="write-button">데이터 추가하기</button>
+    <button id="go-list">목록으로</button>
 
     <table class="user-table">
         <thead>
@@ -59,16 +63,48 @@
     // 버튼 가져오기
     const listButton = document.getElementById("list-button");
     const writeButton = document.getElementById("write-button");
+    // 데이터가 출력될 부분 (tbody)
+    const tbody = document.querySelector("table.user-table tbody");
+    // 목록 보기 버튼
+    const goListButton = document.getElementById("go-list");
+
+    // 목록 보기 버튼
+    goListButton.addEventListener("click", async (e) => {
+        const text = await userService.findAll(userLayout.showList);
+        tbody.innerHTML = text;
+    })
+
+    // 상세 보기 이벤트
+    tbody.addEventListener("click", async (e) => {
+        e.preventDefault();
+        if(e.target.classList[0] === 'go-detail') {
+            const userId = e.target.getAttribute("href");
+            goListButton.style.display = "inline-block";
+            tbody.innerHTML = await userService.read(userId, userLayout.showUser);
+        }
+    })
+    
 
     // 이벤트 처리도 모듈화하려면?
-    const buttonClickEvent = async (e) => {
-        userService.findAll(userLayout.showList);
+    const listButtonClickEvent = async (e) => {
+        const text = await userService.findAll(userLayout.showList);
+        tbody.innerHTML = text;
+
+        // const detailLinks = document.querySelectorAll("a.go-detail");
+        // detailLinks.forEach((link) => {
+        //     link.addEventListener("click", (e) => {
+
+        //     })
+        // })
+
+        //tbody.innerHTML = await userService.read(3, userLayout.showUser);
+
+        //userService.findAll(userLayout.showList);
+
     }
-    listButton.addEventListener("click", buttonClickEvent);
+    //listButton.addEventListener("click", buttonClickEvent);
 
 
-    // // 데이터가 출력될 부분 (tbody)
-    const tbody = document.querySelector("table.user-table tbody");
 
     
 
@@ -81,7 +117,8 @@
 
 
     // 추가 버튼을 눌렀을 때
-    writeButton.addEventListener("click", async (e) => {
+    const writeButtonClickEvent = async (e) => {
+    //writeButton.addEventListener("click", async (e) => {
 
         // 사용자가 화면에 입력한 정보 가져오기
         const name = document.getElementById("name").value;
@@ -114,17 +151,22 @@
         // const user = await response.json();
         // //console.log(user);
 
-
+        
+        // 객체화
         const createdUser = {
             name:name, street:street, suite:suite, city:city, zipcode:zipcode,
         }
+
+        // 서버에 전달해서 회원을 추가하고,
+        // 새롭게 추가된 회원 정보를 tr태그 문자열 값으로 전달받는다.
         const newText = await userService.create(createdUser, userLayout.showUser);
         // 다시 전체 회원 조회
         const text = await userService.findAll(userLayout.showList);
 
         
-
+        // 전체 목록 출력
         tbody.innerHTML = text;
+        // 맨 뒤에 새로운 회원 출력
         tbody.innerHTML += newText;
         // tbody.innerHTML += `
         //         <tr>
@@ -136,7 +178,17 @@
         //             <td>${user.zipcode}</td>
         //         </tr>
         // `;
-    })
+    }
+
+
+
+
+
+
+    // 리팩토링
+    listButton.addEventListener("click", listButtonClickEvent);
+    writeButton.addEventListener("click", writeButtonClickEvent);
+
     
 </script>
 </html>

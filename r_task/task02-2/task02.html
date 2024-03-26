@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>종합 실습 02</title>
+    <style>
+        table {
+            width: 800px;
+            margin: 0 auto;
+            border: 1px solid gray;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            border: 1px solid gray;
+        }
+        #show-list {
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    <button>데이터 가져오기</button>
+    <button type="button" id="show-list">목록으로</button>
+    <div>
+        <form action="" name="post-form" style="text-align: center;">
+            <input type="hidden" name="userId" value="2">
+            <input type="text" name="title" placeholder="제목">
+            <textarea name="body" cols="20" rows="5"></textarea>
+            <button type="button" id="done">게시글 추가</button>
+        </form>
+    </div>
+    <table class="post-table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>body</th>
+            </tr>
+        <thead>
+        <tbody></tbody>
+    </table>
+</body>
+<script src="service02.js"></script>
+<script src="layout02.js"></script>
+<script>
+    const button = document.querySelector("button");
+    const doneButton = document.getElementById("done");
+    const postForm = document['post-form'];
+    const tbody = document.querySelector("table.post-table tbody");
+    // 목록으로 버튼
+    const goListButton = document.getElementById("show-list");
+
+
+    // 게시글 상세보기
+    tbody.addEventListener("click", async (e) => {
+        e.preventDefault();     //href=""로 화면이 이동하지 않도록 막는다
+        if(e.target.classList[0] === 'go-detail') {
+            const postId = e.target.getAttribute("href");
+
+            
+            tbody.innerHTML = await postService.read(postId, postLayout.showPost);
+            goListButton.style.display = "inline-block";
+        }
+    })
+
+    // 게시글 추가
+    const doneButtonClickEvent = async (e) => {
+        const userId = postForm.userId.value;
+        const title = postForm.title.value;
+        const body = postForm.body.value;
+
+        const post = {
+            userId: userId,
+            title: title,
+            body: body
+        }
+
+        await postService.create(post);
+        await postService.findAll(postLayout.showList);
+    }
+
+    doneButton.addEventListener("click", doneButtonClickEvent);
+
+    // 전체 조회
+    const buttonClickEvent = (e) => {
+        postService.findAll(postLayout.showList);
+    }
+
+    // 리팩토링
+    button.addEventListener("click", buttonClickEvent);
+
+    // 목록 보기 버튼
+    goListButton.addEventListener("click", async(e) => {
+        postService.findAll(postLayout.showList);
+        goListButton.style.display = "none";
+    })
+</script>
+</html>
