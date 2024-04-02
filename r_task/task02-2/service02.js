@@ -34,5 +34,19 @@ const postService = (() => {
         }
     }
 
-    return { findAll: findAll, create: create, read: read };
+    // 게시글 수정
+    const update = async (post) => {
+        const response = await fetch(
+            `https://jsonplaceholder.typicode.com/posts/${post.postId}`,
+            {
+                method: "PUT",
+                body: JSON.stringify(post),
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                } 
+            }
+        );
+    }
+
+    return { findAll: findAll, create: create, read: read, update: update };
 })();

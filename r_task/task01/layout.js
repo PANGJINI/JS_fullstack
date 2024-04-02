@@ -11,6 +11,7 @@ const userLayout = (() => {
 
         users.forEach((user) => {
             // 회원 한 명의 정보를 하나의 <tr>에 담는다.
+            // 각 회원마다 상세보기로 이동할 수 있는 a태그를 만들어준다.
             text += `
                 <tr>
                     <td>${user.id}</td>
@@ -43,6 +44,9 @@ const userLayout = (() => {
             `
     }
 
+    // 상세보기
+    // 서버로부터 받아온 회원 1명의 정보를
+    // 화면 형식에 맞는 태그(문자열)로 변경한다.
     const showUser = (user) => {
         return `
                 <tr>
@@ -56,5 +60,22 @@ const userLayout = (() => {
             `
     }
 
-    return {showList: showList, showCreatedUser: showCreatedUser, showUser:showUser };
+    // 수정 화면
+    const updateUser = (user) => {      //user:수정할 대상
+        return `
+                <tr>
+                    <td>${user.id}</td>
+                    <td><input type="text" value="${user.name}"></td>
+                    <td><input type="text" value="${user.address.street}"></td>
+                    <td><input type="text" value="${user.address.suite}"></td>
+                    <td><input type="text" value="${user.address.city}"></td>
+                    <td><input type="text" value="${user.address.zipcode}"></td>
+                </tr>
+            `
+    }
+
+
+
+    return {showList: showList, showCreatedUser: showCreatedUser, showUser:showUser,
+    updateUser: updateUser };
 })();

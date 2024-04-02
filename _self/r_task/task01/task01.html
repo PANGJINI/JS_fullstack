@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>댓글 실습</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <h3>jsonplaceholder에서 댓글 가져오기</h3>
+
+
+    <button type="button" id="commentListButton">댓글 가져오기</button>
+    <table class="commentTable">
+        <thead>
+            <tr>
+                <td>postId</td>
+                <td>id</td>
+                <td>name</td>
+                <td>email</td>
+                <td>body</td>
+            </tr>
+        </thead>
+    </table>
+
+</body>
+<script src="service01.js"></script>
+<script src="layout01.js"></script>
+<script>
+    // 댓글 가져오기 버튼 
+    const commentListButton = document.getElementById("commentListButton");
+
+    // 댓글 목록이 표시될 tbody
+    const tbody = document.querySelector("table.commentTable tbody");
+
+    commentListButton.addEventListener("click", async (e) => {
+        
+    })
+</script>
+</html>

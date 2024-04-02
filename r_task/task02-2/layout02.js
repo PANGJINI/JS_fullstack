@@ -17,6 +17,7 @@ const postLayout = (() => {
         tbody.innerHTML = text;
     };
 
+    // 상세정보 레이아웃
     const showPost = (post) => {
         return `
                 <tr>
@@ -26,5 +27,16 @@ const postLayout = (() => {
                 </tr>`;
     }
 
-    return { showList: showList, showPost: showPost };
+    // 수정페이지 레이아웃
+    const updatePost = (post) => {
+        return `
+                <tr>
+                    <td>${post.id}</td>
+                    <td><input type="text" value="${post.title}"></td>
+                    <td><textarea cols=70>${post.body}</textarea></td>
+                </tr>
+            `;
+    }
+
+    return { showList: showList, showPost: showPost, updatePost:updatePost };
 })();

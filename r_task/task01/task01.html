@@ -21,15 +21,23 @@
         td, th {
             border: 1px solid gray;
         }
-        #go-list {
+
+        /* 상세보기 페이지에서만 보여지는 버튼이다 */
+        #go-list, #go-update, #update, #delete {
             display:none;
         }
+       
 
     </style>
 </head>
 <body>
     <button id="list-button">데이터 가져오기</button>
-    
+    <button id="write-button">데이터 추가하기</button>
+    <button id="go-list">목록으로</button>
+    <button id="go-update">수정하기</button>
+    <button id="update">수정완료</button>
+    <button id="delete">삭제하기</button>
+
     <div>
         <input type="text" id="name" placeholder="이름"/>
         <input type="text" id="city" placeholder="시/도"/>
@@ -37,8 +45,6 @@
         <input type="text" id="suite" placeholder="상세주소"/>
         <input type="text" id="zipcode" placeholder="우편주소"/>
     </div>
-    <button id="write-button">데이터 추가하기</button>
-    <button id="go-list">목록으로</button>
 
     <table class="user-table">
         <thead>
@@ -52,21 +58,26 @@
             </tr>
         </thead>
         <tbody>
-
         </tbody>
         
     </table>
 </body>
+
 <script src="service01.js"></script>
 <script src="layout.js"></script>
 <script>
-    // 버튼 가져오기
+    // 데이터 가져오기, 데이터 추가하기 버튼
     const listButton = document.getElementById("list-button");
     const writeButton = document.getElementById("write-button");
-    // 데이터가 출력될 부분 (tbody)
-    const tbody = document.querySelector("table.user-table tbody");
     // 목록 보기 버튼
     const goListButton = document.getElementById("go-list");
+    // 수정하기, 삭제하기 버튼
+    const goUpdateButton = document.getElementById("go-update");
+    const updateButton = document.getElementById("update");
+    const deleteButton = document.getElementById("delete");
+    // 데이터가 출력될 부분 (tbody)
+    const tbody = document.querySelector("table.user-table tbody");
+    
 
     // 목록 보기 버튼
     goListButton.addEventListener("click", async (e) => {
@@ -74,12 +85,20 @@
         tbody.innerHTML = text;
     })
 
+
     // 상세 보기 이벤트
     tbody.addEventListener("click", async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // 기존 이벤트(이동) 제거
+
         if(e.target.classList[0] === 'go-detail') {
             const userId = e.target.getAttribute("href");
+            // 수정하기 버튼의 클래스명으로 userId를 넣어줌
+            goUpdateButton.classList.add(userId);
+
+            // 목록으로, 수정, 삭제하기 버튼을 보이게 한다.
             goListButton.style.display = "inline-block";
+            goUpdateButton.style.display = "inline-block";
+            deleteButton.style.display = "inline-block";
             tbody.innerHTML = await userService.read(userId, userLayout.showUser);
         }
     })
@@ -181,6 +200,42 @@
     }
 
 
+    // 수정하기 버튼 클릭이벤트
+    const goUpdateButtonClickEvent = async (e) => {
+        const userId = e.target.classList[0];   //상세보기에서 넘겨받은 userId
+
+        // 수정하기 버튼 숨기기
+        e.target.style.display = "none";
+        // 수정 완료 버튼 보여주기
+        updateButton.style.display = "inline-block";
+
+        // read로 조회해서 updateUser 레이아웃으로 뿌리기 때문에 데이터가 input 태그에 감싸져서 표시된다.
+        tbody.innerHTML = await userService.read(userId, userLayout.updateUser);
+    }
+
+
+    // 수정완료 버튼 클릭이벤트
+    const updateButtonClickEvent = async (e) => {
+        // name, street, suit, city, zipcode
+        const keys = ['name', 'street', 'suite', 'city', 'zipcode']
+        const tds = document.querySelectorAll("td");
+        const user = {};
+
+        // <td> 태그가 6개가 있다.
+        // 따라서 6번 반복 돌림
+        tds.forEach((td, i) => {
+            if(i == 0){
+                user.userId = td.innerText;
+                return;
+            }
+            const value = td.querySelector('input').value;
+            user[keys[i - 1]] = value;
+        });
+
+        userService.update(user);
+    }
+
+
 
 
 
@@ -188,6 +243,8 @@
     // 리팩토링
     listButton.addEventListener("click", listButtonClickEvent);
     writeButton.addEventListener("click", writeButtonClickEvent);
+    goUpdateButton.addEventListener("click", goUpdateButtonClickEvent);
+    updateButton.addEventListener("click", updateButtonClickEvent);
 
     
 </script>

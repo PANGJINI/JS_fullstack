@@ -15,7 +15,7 @@
         td, th {
             border: 1px solid gray;
         }
-        #show-list {
+        #show-list, #go-update, #update, #delete {
             display:none;
         }
     </style>
@@ -23,6 +23,10 @@
 <body>
     <button>데이터 가져오기</button>
     <button type="button" id="show-list">목록으로</button>
+    <button type="button" id="go-update">수정하기</button>
+    <button type="button" id="update">수정완료</button>
+    <button type="button" id="delete">삭제하기</button>
+
     <div>
         <form action="" name="post-form" style="text-align: center;">
             <input type="hidden" name="userId" value="2">
@@ -51,19 +55,17 @@
     const tbody = document.querySelector("table.post-table tbody");
     // 목록으로 버튼
     const goListButton = document.getElementById("show-list");
+    // 수정 버튼
+    const goUpdateButton = document.getElementById("go-update");
+    const updateButton = document.getElementById("update");
+    // 삭제 버튼
+    const deleteButton = document.getElementById("delete");
 
 
-    // 게시글 상세보기
-    tbody.addEventListener("click", async (e) => {
-        e.preventDefault();     //href=""로 화면이 이동하지 않도록 막는다
-        if(e.target.classList[0] === 'go-detail') {
-            const postId = e.target.getAttribute("href");
-
-            
-            tbody.innerHTML = await postService.read(postId, postLayout.showPost);
-            goListButton.style.display = "inline-block";
-        }
-    })
+    // 전체 조회
+    const buttonClickEvent = (e) => {
+        postService.findAll(postLayout.showList);
+    }
 
     // 게시글 추가
     const doneButtonClickEvent = async (e) => {
@@ -81,20 +83,85 @@
         await postService.findAll(postLayout.showList);
     }
 
-    doneButton.addEventListener("click", doneButtonClickEvent);
 
-    // 전체 조회
-    const buttonClickEvent = (e) => {
+    // 게시글 상세보기
+    tbody.addEventListener("click", async (e) => {
+        e.preventDefault();     //href=""로 화면이 이동하지 않도록 막는다
+        if(e.target.classList[0] === 'go-detail') {
+            const postId = e.target.getAttribute("href");
+            // 수정하기 버튼의 클래스명으로 postId를 넣어준다.
+            goUpdateButton.classList.add(postId);
+
+            // 상세 목록을 받아온다.
+            tbody.innerHTML = await postService.read(postId, postLayout.showPost);
+            
+            // 목록으로, 수정, 삭제하기 버튼을 보이게 한다.
+            goListButton.style.display = "inline-block";
+            goUpdateButton.style.display = "inline-block";
+            deleteButton.style.display = "inline-block";
+        }
+    })
+
+
+    // 목록 보기 버튼
+    const goListButtonClickEvent = async(e) => {
+        // 전체 게시글 목록을 보여준다.
         postService.findAll(postLayout.showList);
+
+        // 목록으로, 수정, 삭제하기 버튼을 숨긴다.
+        goListButton.style.display = "none";
+        goUpdateButton.style.display = "none";
+        deleteButton.style.display = "none";
+    }
+
+
+    // 수정하기 버튼
+    const goUpdateButtonClickEvent = async (e) => {
+        // 상세보기 페이지에서 넘어온 postId
+        const postId = e.target.classList[0];
+
+        // 수정하기 버튼 숨기고 수정 완료 버튼을 보여준다.
+        goUpdateButton.style.display = "none";
+        updateButton.style.display = "inline-block";
+
+        // read로 조회해서 데이터 수정이 가능하도록 input 태그로 뿌리기
+        tbody.innerHTML = await postService.read(postId, postLayout.updatePost);
+    }
+    
+
+    // 수정완료 버튼
+    const updateButtonClickEvent = async(e) => {
+        const datas = document.querySelectorAll("td");
+        const post = {};
+
+        datas.forEach((data, i) => {
+            if(i==0) {
+                post.postId = data.innerText;
+                return;
+            }
+            if(i==1) {
+                post.title = data.innetText;
+                return;
+            }
+            if(i==2) {
+                post.body = data.innerText;
+                return;
+            }
+            // const value = data.querySelector('input').value;
+            // post.title = value;
+            // console.log(value);
+            //post.body = data.querySelector('textarea').value;
+        });
+        
+        postService.update(post);
     }
 
     // 리팩토링
     button.addEventListener("click", buttonClickEvent);
+    doneButton.addEventListener("click", doneButtonClickEvent);
+    goListButton.addEventListener("click", goListButtonClickEvent);
+    goUpdateButton.addEventListener("click", goUpdateButtonClickEvent);
+    updateButton.addEventListener("click", updateButtonClickEvent);
 
-    // 목록 보기 버튼
-    goListButton.addEventListener("click", async(e) => {
-        postService.findAll(postLayout.showList);
-        goListButton.style.display = "none";
-    })
 </script>
 </html>
