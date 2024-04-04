@@ -3,40 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>댓글 실습</title>
+    <title>jsonplaceholder user CRUD</title>
     <style>
+        table {
+            width: 1000px;
+            margin: 0 auto;
+            border: 1px solid gray;
+            border-collapse: collapse;
+        }
 
+        td, th {
+            text-align: center;
+            border: 1px solid gray;
+        }      
+        
+        .btn-align {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <h3>jsonplaceholder에서 댓글 가져오기</h3>
+    <h3>💗jsonplaceholder에서 user 데이터 가져오기</h3>
 
-
-    <button type="button" id="commentListButton">댓글 가져오기</button>
-    <table class="commentTable">
+    <div class="btn-align">
+        <button type="button" id="list-button">전체 회원 보기</button>
+    </div>
+    
+    <br>
+    <table class="user-table">
         <thead>
             <tr>
-                <td>postId</td>
                 <td>id</td>
                 <td>name</td>
                 <td>email</td>
-                <td>body</td>
+                <td>city</td>
+                <td>phone</td>
+                <td>company</td>
             </tr>
         </thead>
+        <tbody>
+        </tbody>
     </table>
-
 </body>
+
+
 <script src="service01.js"></script>
 <script src="layout01.js"></script>
 <script>
-    // 댓글 가져오기 버튼 
-    const commentListButton = document.getElementById("commentListButton");
+    // 데이터가 출력될 tbody
+    const tbody = document.querySelector("table.user-table tbody");
 
-    // 댓글 목록이 표시될 tbody
-    const tbody = document.querySelector("table.commentTable tbody");
+    // 전체 회원 보기 버튼
+    const listButton = document.getElementById("list-button");
 
-    commentListButton.addEventListener("click", async (e) => {
-        
-    })
+    // 전체 회원 보기
+    const listButtonClickEvent = async (e) => {
+        // userService.findAll 메서드에서 모든 회원의 데이터 가져온 후
+        // userLayout.showList 콜백함수를 통해 화면에 출력할 문자열(text, 회원정보) 생성
+        const text = await userService.findAll(userLayout.showList);
+
+        // tbody에 회원 목록 표시
+        tbody.innerHTML = text;
+    }
+
+
+    // 리팩토링
+    listButton.addEventListener("click", listButtonClickEvent);
 </script>
 </html>

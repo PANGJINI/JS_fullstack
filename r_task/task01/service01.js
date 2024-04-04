@@ -60,7 +60,7 @@ const userService = (() => {
         const response = await fetch(
             `https://jsonplaceholder.typicode.com/users/${user.userId}`,
             {
-                method: "put",     //put으로 요청하면 수정으로 이해함~~
+                method: "PUT",     //put으로 요청하면 수정으로 이해함~~
                 body: JSON.stringify(user),     //user를 그냥 객체로 받아
                 headers: {  //header는 객체를 담는다
                     //Content-Type에는 request body에 어떤 타입의 데이터가 담겼는지를 알려준다.
@@ -100,13 +100,22 @@ const userService = (() => {
     // };
 
 
+    // 🧡삭제
+    const remove = async (userId) => {
+        const response = await fetch(
+                `https://jsonplaceholder.typicode.com/users/${userId}`,
+                {
+                    method: "DELETE"
+                }
+            );
 
 
-
+    }
 
     return { findAll: findAll, 
         create: create, 
         read: read, 
-        update: update 
+        update: update,
+        remove: remove,
     };
 })();

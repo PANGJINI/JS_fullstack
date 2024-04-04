@@ -79,6 +79,29 @@
     const tbody = document.querySelector("table.user-table tbody");
     
 
+    // 삭제 버튼
+    const deleteButtonClickEvent = async (e) => {
+        // e.target : 이벤트를 발생시킨 객체 (여기서는 deleteButton)
+        // 삭제 버튼의 class 속성에 작성된 회원번호를 가져온다.
+        // 상세보기 서비스에서 삭제 버튼에 회원번호를 작성했다.
+        const userId = e.target.classList[0];
+
+        // 삭제
+        userService.remove(userId);
+
+        // 전체 목록 출력
+        const text = await userService.findAll(userLayout.showList);
+
+        // 화면 출력
+        // 전체 목록 출력
+        tbody.innerHTML = text;
+        // 목록으로 가기, 삭제버튼, 수정버튼 숨김
+        goListButton.style.display = "none";   
+        e.target.style.display = "none";     
+        goUpdateButton.style.display = "none"; 
+    }
+
+
     // 목록 보기 버튼
     goListButton.addEventListener("click", async (e) => {
         const text = await userService.findAll(userLayout.showList);
@@ -245,6 +268,7 @@
     writeButton.addEventListener("click", writeButtonClickEvent);
     goUpdateButton.addEventListener("click", goUpdateButtonClickEvent);
     updateButton.addEventListener("click", updateButtonClickEvent);
+    deleteButton.addEventListener("click", deleteButtonClickEvent);
 
     
 </script>

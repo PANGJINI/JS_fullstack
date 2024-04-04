@@ -35,9 +35,10 @@ const postService = (() => {
     }
 
     // 게시글 수정
+    // 전체 수정
     const update = async (post) => {
         const response = await fetch(
-            `https://jsonplaceholder.typicode.com/posts/${post.postId}`,
+            `https://jsonplaceholder.typicode.com/posts/${post.id}`,
             {
                 method: "PUT",
                 body: JSON.stringify(post),
@@ -46,7 +47,25 @@ const postService = (() => {
                 } 
             }
         );
+        const updatedPost = await response.json();
+        console.log(updatedPost);
     }
+
+    // 부분 수정
+    // const update = async (post) => {
+    //     const response = await fetch(
+    //         `https://jsonplaceholder.typicode.com/posts/${post.id}`,
+    //         {
+    //             method: "PATCH",
+    //             body: JSON.stringify(post),
+    //             headers: {
+    //                 'Content-Type': 'application/json; charset=utf-8'
+    //             } 
+    //         }
+    //     );
+    //     const updatedPost = await response.json();
+    //     console.log(updatedPost);
+    // }
 
     return { findAll: findAll, create: create, read: read, update: update };
 })();
