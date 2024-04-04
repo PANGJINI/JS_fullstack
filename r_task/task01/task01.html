@@ -66,6 +66,8 @@
 <script src="service01.js"></script>
 <script src="layout.js"></script>
 <script>
+    // 데이터가 출력될 부분 (tbody)
+    const tbody = document.querySelector("table.user-table tbody");
     // 데이터 가져오기, 데이터 추가하기 버튼
     const listButton = document.getElementById("list-button");
     const writeButton = document.getElementById("write-button");
@@ -75,11 +77,10 @@
     const goUpdateButton = document.getElementById("go-update");
     const updateButton = document.getElementById("update");
     const deleteButton = document.getElementById("delete");
-    // 데이터가 출력될 부분 (tbody)
-    const tbody = document.querySelector("table.user-table tbody");
+    
     
 
-    // 삭제 버튼
+    // 삭제 버튼 이벤트
     const deleteButtonClickEvent = async (e) => {
         // e.target : 이벤트를 발생시킨 객체 (여기서는 deleteButton)
         // 삭제 버튼의 class 속성에 작성된 회원번호를 가져온다.
@@ -102,7 +103,7 @@
     }
 
 
-    // 목록 보기 버튼
+    // 목록 보기 버튼 이벤트
     goListButton.addEventListener("click", async (e) => {
         const text = await userService.findAll(userLayout.showList);
         tbody.innerHTML = text;
@@ -127,7 +128,7 @@
     })
     
 
-    // 이벤트 처리도 모듈화하려면?
+    // 전체 조회 버튼
     const listButtonClickEvent = async (e) => {
         const text = await userService.findAll(userLayout.showList);
         tbody.innerHTML = text;
@@ -147,18 +148,7 @@
     //listButton.addEventListener("click", buttonClickEvent);
 
 
-
-    
-
-    
-    // 전체 조회 버튼을 클릭했을 때
-    // listButton.addEventListener("click", async (e) => {
-    //     // 리팩토링
-    //     userService.findAll(userLayout.showList);
-    // });
-
-
-    // 추가 버튼을 눌렀을 때
+    // 추가 버튼 이벤트
     const writeButtonClickEvent = async (e) => {
     //writeButton.addEventListener("click", async (e) => {
 

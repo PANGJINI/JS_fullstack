@@ -1,0 +1,91 @@
+<!-- 
+    🧡라이브러리 Library : 기존 프로젝트에 일부분으로 사용할 수 있는 작은 단위 (편의성, 유틸)
+    - 이미 있는 다른 코드를 빌려서 사용하는 것
+    - 제공되어있는 코드를 복사해서 내 프로젝트에 넣으면 된다
+    - 라이브러리는 딱 1개라고 생각하면 됨
+
+    🧡API(Application Programming Interface) : 라이브러리가 여러 개 모여서 API가 된다.
+    - 기존 프로젝트에 많은 부분으로 활용할 수 있는 묶음 단위
+    - ex. 인증번호 문자발송, 지도 api, 번역 api
+
+    🧡프레임워크(Framework) : API가 모여서 프레임워크가 된다.
+    - 라이브러리, API는 기존의 내 프로젝트에서 필요한 라이브러리, API를 가져다 사용한다.
+    - 프레임워크는 프레임워크 내에서 내가 프로젝트를 만든다.
+    - 프레임워크에서 원하는 API를 골라서 적용 후 작업 진행 가능
+    - 프론트에서 많이 사용하는 프레임워크 : Next.js (리액트가 Next.js 안에 들어가있다.)
+    - 백엔드에서 많이 사용하는 프레임워크 : Nest.js
+
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카카오맵 API</title>
+</head>
+<body>
+    <h3>카카오맵 API</h3>
+    
+    <div id="map" style="width:500px;height:400px;"></div>
+</body>
+
+<script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=ac2054ce12dc65e601727c817123fd43&libraries=services"></script>
+<script>
+    let container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+    let options = { //지도를 생성할 때 필요한 기본 옵션
+        center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+        level: 3 //지도의 레벨(확대, 축소 정도)
+    };
+
+    let map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+
+    // // 마커가 표시될 위치입니다 
+    // let markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667); 
+
+    // // 마커를 생성합니다
+    // let marker = new kakao.maps.Marker({
+    //     position: markerPosition
+    // });
+
+    // // 마커가 지도 위에 표시되도록 설정합니다
+    // marker.setMap(map);
+
+
+    // 주소-좌표 변환 객체를 생성합니다
+    let geocoder = new kakao.maps.services.Geocoder();
+
+    // 주소로 좌표를 검색합니다
+    geocoder.addressSearch('경기도 부천시 소사구 범안로 9', function(result, status) {
+
+        // 정상적으로 검색이 완료됐으면 
+        if (status === kakao.maps.services.Status.OK) {
+
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);   //result[0].y 경도, result[0].x 위도
+            console.log(coords);
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: coords
+            });
+
+            // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">머진아파트</div>'
+            });
+            infowindow.open(map, marker);
+
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            map.setCenter(coords);
+            
+        } 
+    });    
+
+
+
+
+
+
+
+</script>
+</html>
