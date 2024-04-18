@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jsonplaceholder user CRUD</title>
+    <style>
+        table {
+            width: 1000px;
+            margin: 0 auto;
+            border: 1px solid gray;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            text-align: center;
+            border: 1px solid gray;
+        }      
+        
+        .btn-align {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h3>💗jsonplaceholder에서 user 데이터 가져오기</h3>
+
+    <div class="btn-align">
+        <div>
+            <button type="button" id="list-button">전체 회원 보기</button>
+        </div>
+        <div>
+            <input type="text" id="name" placeholder="이름" />
+            <input type="text" id="email" placeholder="이메일" />
+            <input type="text" id="city" placeholder="거주지" />
+            <input type="text" id="phone" placeholder="연락처" />
+            <input type="text" id="company" placeholder="직장명" />
+            <button type="button" id="write-button">회원 추가하기</button>
+        </div>
+        
+    </div>
+    
+    <br>
+    <table class="user-table">
+        <thead>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>email</td>
+                <td>city</td>
+                <td>phone</td>
+                <td>company</td>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</body>
+
+
+<script src="service01.js"></script>
+<script src="layout01.js"></script>
+<script>
+    // 데이터가 출력될 tbody
+    const tbody = document.querySelector("table.user-table tbody");
+
+    // 전체 회원 보기 버튼
+    const listButton = document.getElementById("list-button");
+    // 회원 추가하기 버튼
+    const writeButton = document.getElementById("write-button");
+
+
+    // 전체 회원 보기
+    const listButtonClickEvent = async (e) => {
+        // userService.findAll 메서드에서 모든 회원의 데이터 가져온 후
+        // userLayout.showList 콜백함수를 통해 화면에 출력할 문자열(text, 회원정보) 생성
+        const text = await userService.findAll(userLayout.showUserList);
+
+        // tbody에 회원 목록 표시
+        tbody.innerHTML = text;
+    }
+
+    // 회원 추가하기
+    const writeButtonClickEvent = async (e) => {
+        // 버튼을 클릭하면 사용자가 입력한 정보를 가져온다.
+        // 그냥 document.getElementById("name")을 할 경우 해당 <input> 태그 전체를 가져오기 때문에
+        // .value로 사용자의 입력값만 문자열로 받아온다.
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const city = document.getElementById("city").value;
+        const phone = document.getElementById("phone").value;
+        const company = document.getElementById("company").value;
+        
+        // 새롭게 추가할 회원의 정보를 객체에 담아준다.
+        const createdUser = {
+            name:name, email:email, city:city, phone:phone, company:company,
+        }
+
+        // userService.create 메서드를 통해 새로운 회원정보인 createdUser를 서버에 전달한다.
+        // userLayout.showUser 콜백함수를 통해 회원 1명의 정보를 문자열로 생성한다.
+        const newText = await userService.create(createdUser, userLayout.showUser);
+
+        // 전체 목록을 출력하기 위해 기존의 회원 정보를 다시 조회한다.
+        const text = await userService.findAll(userLayout.showUserList);
+
+        // 기존 회원 전체 목록을 먼저 출력한다.
+        tbody.innerHTML = text;
+        // 가장 마지막에 새로운 회원 출력
+        tbody.innerHTML += newText;
+    }
+
+
+    // 리팩토링
+    listButton.addEventListener("click", listButtonClickEvent);
+    writeButton.addEventListener("click", writeButtonClickEvent);
+</script>
+</html>

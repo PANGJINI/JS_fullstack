@@ -1,13 +1,19 @@
 import './App.css';
-import Jsx01 from './Jsx01';
-import Jsx02 from './Jsx02';
-import Jsx03 from './Jsx03';
-import Jsx04 from './Jsx04';
-import Jsx05 from './Jsx05';
+import Jsx01 from './0_react basic/Jsx01';
+import Jsx02 from './0_react basic/Jsx02';
+import Jsx03 from './0_react basic/Jsx03';
+import Jsx04 from './0_react basic/Jsx04';
+import Jsx05 from './0_react basic/Jsx05';
 import Container from './a_props/Container';
-import FoodContainer from './b_map/FoodContainer';
 import UserContainer from './b_map/expert/UserContainer';
 import Count from './c_state/basic/Count';
+import Sound from './c_state/basic/Sound';
+import Color from './c_state/basic/Color';
+import Name from './d_reference/basic/Name';
+import Check from './d_reference/basic/Check';
+import Checkbox from './d_reference/basic/Checkbox';
+import CheckInput from './d_reference/basic/CheckInput';
+import FoodContainer from './d_reference/expert/FoodContainer';
 
 function App() {
   return (
@@ -24,9 +30,17 @@ function App() {
     // <Jsx04 />
     // <Jsx05 />
     // <Container/>
-    // <FoodContainer />
+
     // <UserContainer />
-    <Count />
+    // <Count />
+    // <Sound />
+    // <Name />
+    // <Color />
+    // <Name />
+    // <Check />
+    // <Checkbox />
+    // <CheckInput />
+    <FoodContainer />
   );
 }
 

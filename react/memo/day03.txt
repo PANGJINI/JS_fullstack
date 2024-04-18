@@ -1,0 +1,14 @@
+💜리액트 서버 작동 명령
+- Ctrl + ` 로 터미널 켜기
+- cd study
+- yarn add react-async
+
+
+💜ref 쓰는 이유
+
+
+💜표기법
+-카멜표기법 flexDirection
+-파스칼표기법 CheckInput
+-케밥표기법 flex-Direction
+- flex_Direction

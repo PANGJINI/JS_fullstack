@@ -1,8 +1,8 @@
 import React from 'react';
-import PassComponent from './PassComponent';
-import NotPassComponent from './NotPassComponent';
-import LuckyComponent from './LuckyComponent';
-import UnLuckyComponent from './UnLuckyComponent';
+import PassComponent from '../PassComponent';
+import NotPassComponent from '../NotPassComponent';
+import LuckyComponent from '../LuckyComponent';
+import UnLuckyComponent from '../UnLuckyComponent';
 
 // age는 상수로 나이를 설정
 // 19세 이하라면 "입장불가", 성인이라면 "입장가능"

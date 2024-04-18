@@ -52,10 +52,10 @@ const userLayout = (() => {
                 <tr>
                     <td>${user.id}</td>
                     <td>${user.name}</td>
-                    <td>${user.address.street}</td>
-                    <td>${user.address.suite}</td>
-                    <td>${user.address.city}</td>
-                    <td>${user.address.zipcode}</td>
+                    <td>${user.street}</td>
+                    <td>${user.suite}</td>
+                    <td>${user.city}</td>
+                    <td>${user.zipcode}</td>
                 </tr>
             `
     }
